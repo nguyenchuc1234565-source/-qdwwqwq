@@ -1,0 +1,955 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>An Khang ❤️ Phương Thảo</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary-color: #ff4d6d;
+            --secondary-color: #ff8fa3;
+            --light-color: #ffb3c1;
+            --dark-color: #1a1a2e;
+            --accent-color: #ffd166;
+            --text-color: #ffffff;
+            --bg-color: #1a1a2e;
+            --card-bg: rgba(255, 255, 255, 0.1);
+            --card-border: rgba(255, 255, 255, 0.2);
+        }
+
+        [data-theme="light"] {
+            --primary-color: #e91e63;
+            --secondary-color: #f48fb1;
+            --light-color: #f8bbd9;
+            --dark-color: #f5f5f5;
+            --accent-color: #ff9800;
+            --text-color: #333333;
+            --bg-color: #f5f5f5;
+            --card-bg: rgba(255, 255, 255, 0.9);
+            --card-border: rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            background: linear-gradient(135deg, var(--dark-color) 0%, var(--bg-color) 50%, #0f3460 100%);
+            color: var(--text-color);
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        /* Preloader */
+        .preloader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--dark-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease;
+        }
+
+        .preloader.hide {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .preloader_inner {
+            font-size: 3rem;
+            color: var(--primary-color);
+            text-align: center;
+        }
+
+        .preloader_inner::after {
+            content: "";
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background-color: var(--secondary-color);
+            margin-left: 10px;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(0.8); opacity: 0.7; }
+            50% { transform: scale(1.2); opacity: 1; }
+            100% { transform: scale(0.8); opacity: 0.7; }
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Header */
+        header {
+            padding: 20px 0;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 2rem;
+            color: var(--primary-color);
+            font-weight: bold;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 20px;
+        }
+
+        /* Dark mode toggle */
+        .checkbox {
+            position: relative;
+        }
+
+        .darkmode-toggle {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        #toggle-checkbox {
+            display: none;
+        }
+
+        .toggle-slider {
+            width: 50px;
+            height: 24px;
+            background-color: #ccc;
+            border-radius: 24px;
+            position: relative;
+            transition: background-color 0.3s;
+        }
+
+        .toggle-slider::before {
+            content: "";
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background-color: white;
+            top: 2px;
+            left: 2px;
+            transition: transform 0.3s;
+        }
+
+        #toggle-checkbox:checked + .toggle-slider {
+            background-color: var(--primary-color);
+        }
+
+        #toggle-checkbox:checked + .toggle-slider::before {
+            transform: translateX(26px);
+        }
+
+        .theme-label {
+            margin-left: 10px;
+            color: var(--text-color);
+            font-size: 0.9rem;
+        }
+
+        /* Main content */
+        .content {
+            text-align: center;
+            padding: 40px 0;
+        }
+
+        .greetings {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .greetings span {
+            font-size: 3rem;
+            color: var(--primary-color);
+            text-shadow: 0 0 10px rgba(255, 77, 109, 0.5);
+            animation: bounce 2s infinite;
+        }
+
+        .greetings span:nth-child(2) { animation-delay: 0.1s; }
+        .greetings span:nth-child(3) { animation-delay: 0.2s; }
+        .greetings span:nth-child(4) { animation-delay: 0.3s; }
+        .greetings span:nth-child(5) { animation-delay: 0.4s; }
+        .greetings span:nth-child(6) { animation-delay: 0.5s; }
+        .greetings span:nth-child(7) { animation-delay: 0.6s; }
+        .greetings span:nth-child(8) { animation-delay: 0.7s; }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        /* Countdown */
+        .count {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 20px;
+            margin: 40px 0;
+        }
+
+        .count li {
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 20px 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: transform 0.3s, box-shadow 0.3s;
+            border: 1px solid var(--card-border);
+        }
+
+        .count li:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            margin-bottom: 5px;
+        }
+
+        .name {
+            font-size: 1rem;
+            color: var(--text-color);
+        }
+
+        /* User section */
+        .user {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 40px;
+            margin: 50px 0;
+            flex-wrap: wrap;
+        }
+
+        .userItem {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .image {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 5px solid var(--primary-color);
+            box-shadow: 0 0 20px rgba(255, 77, 109, 0.5);
+            transition: transform 0.3s;
+        }
+
+        .image:hover {
+            transform: scale(1.05);
+        }
+
+        .image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .userItem span {
+            margin-top: 15px;
+            font-size: 1.5rem;
+            color: var(--text-color);
+            font-weight: bold;
+        }
+
+        /* Heart animation */
+        .boxheart {
+            position: relative;
+            width: 150px;
+            height: 150px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .heart {
+            position: absolute;
+            width: 100px;
+            height: 90px;
+            animation: heartbeat 1.5s infinite;
+        }
+
+        .heart:before,
+        .heart:after {
+            content: "";
+            position: absolute;
+            left: 50px;
+            top: 0;
+            width: 50px;
+            height: 80px;
+            background: var(--primary-color);
+            border-radius: 50px 50px 0 0;
+            transform: rotate(-45deg);
+            transform-origin: 0 100%;
+        }
+
+        .heart:after {
+            left: 0;
+            transform: rotate(45deg);
+            transform-origin: 100% 100%;
+        }
+
+        .text_in_heart {
+            position: absolute;
+            text-align: center;
+            z-index: 2;
+            color: var(--text-color);
+        }
+
+        .text_in_heart p {
+            font-size: 1.8rem;
+            font-weight: bold;
+            margin: 0;
+        }
+
+        .text_in_heart span {
+            font-size: 1rem;
+        }
+
+        @keyframes heartbeat {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        /* Button */
+        .button-group {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin: 30px 0;
+            flex-wrap: wrap;
+        }
+
+        .button {
+            margin: 0;
+        }
+
+        .button button {
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            border: none;
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: white;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+            box-shadow: 0 5px 15px rgba(255, 77, 109, 0.4);
+            min-width: 200px;
+        }
+
+        .button button:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(255, 77, 109, 0.6);
+        }
+
+        .button button a {
+            color: white;
+            text-decoration: none;
+            display: block;
+        }
+
+        /* Zodiac section */
+        .zodiac {
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            margin: 50px 0;
+            border: 1px solid var(--card-border);
+        }
+
+        .zodiac-title {
+            text-align: center;
+            font-size: 2rem;
+            margin-bottom: 30px;
+            color: var(--secondary-color);
+        }
+
+        .zodiac-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .zodiac-item {
+            text-align: center;
+            padding: 20px;
+            background: var(--card-bg);
+            border-radius: 15px;
+            transition: transform 0.3s;
+            border: 1px solid var(--card-border);
+        }
+
+        .zodiac-item:hover {
+            transform: translateY(-10px);
+        }
+
+        .zodiac-icon {
+            font-size: 4rem;
+            color: var(--accent-color);
+            margin-bottom: 15px;
+        }
+
+        .zodiac-name {
+            font-size: 1.5rem;
+            color: var(--text-color);
+            margin-bottom: 10px;
+        }
+
+        .zodiac-dates {
+            font-size: 1rem;
+            color: var(--secondary-color);
+            margin-bottom: 15px;
+        }
+
+        .zodiac-traits {
+            font-size: 0.9rem;
+            color: var(--text-color);
+            line-height: 1.5;
+            opacity: 0.8;
+        }
+
+        /* Love message */
+        .love-message {
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            margin: 40px 0;
+            text-align: center;
+            border: 1px solid var(--card-border);
+        }
+
+        .message-title {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            color: var(--secondary-color);
+        }
+
+        .message-content {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            color: var(--text-color);
+        }
+
+        .highlight {
+            color: var(--primary-color);
+            font-weight: bold;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 30px 0;
+            margin-top: 50px;
+            border-top: 1px solid var(--card-border);
+            color: var(--text-color);
+        }
+
+        /* Floating elements */
+        .floating-hearts {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .floating-heart {
+            position: absolute;
+            font-size: 24px;
+            color: var(--primary-color);
+            opacity: 0.7;
+            animation: float 6s infinite ease-in-out;
+        }
+
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .star {
+            position: absolute;
+            background: var(--text-color);
+            border-radius: 50%;
+            animation: twinkle 5s infinite ease-in-out;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(10deg); }
+            100% { transform: translateY(0) rotate(0deg); }
+        }
+
+        @keyframes twinkle {
+            0% { opacity: 0.2; }
+            50% { opacity: 1; }
+            100% { opacity: 0.2; }
+        }
+
+        /* Music player */
+        .music-player {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            border-radius: 50px;
+            padding: 10px 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            z-index: 100;
+            border: 1px solid var(--card-border);
+        }
+
+        .music-btn {
+            background: none;
+            border: none;
+            color: var(--secondary-color);
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .music-btn:hover {
+            color: var(--primary-color);
+        }
+
+        .music-title {
+            font-size: 0.9rem;
+            color: var(--text-color);
+        }
+
+        /* Aries icon (Bạch Dương) */
+        .aries-icon {
+            display: inline-block;
+            position: relative;
+            width: 80px;
+            height: 80px;
+        }
+
+        .aries-icon::before {
+            content: "♈";
+            font-size: 4rem;
+            color: var(--accent-color);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .greetings span {
+                font-size: 2rem;
+            }
+
+            .count {
+                grid-template-columns: repeat(4, 1fr);
+            }
+
+            .user {
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            .zodiac-container {
+                grid-template-columns: 1fr;
+            }
+
+            nav ul {
+                gap: 10px;
+            }
+
+            .button-group {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .button button {
+                width: 100%;
+                max-width: 300px;
+            }
+        }
+    </style>
+</head>
+<body data-theme="dark">
+    <!-- Preloader -->
+    <div class="preloader" id="preloader">
+        <div class="preloader_inner">0%</div>
+    </div>
+
+    <!-- Floating elements -->
+    <div class="floating-hearts" id="floatingHearts"></div>
+    <div class="stars" id="stars"></div>
+
+    <!-- Music player -->
+    <div class="music-player">
+        <button class="music-btn" id="playBtn">
+            <i class="fas fa-play"></i>
+        </button>
+        <span class="music-title">Bình yên - Vũ</span>
+            <audio id="bgMusic" loop>
+                <source src="/nhac/binhyen.mp3" type="audio/mpeg">
+            </audio>
+        </div>
+    <div class="container">
+        <header>
+            <nav>
+                <div class="logo">
+                    <i class="fas fa-heart"></i> An Khang 💚 Phương Thảo
+                </div>
+                <ul>
+                    <li class="checkbox">
+                        <label class="darkmode-toggle" for="toggle-checkbox">
+                            <input type="checkbox" id="toggle-checkbox">
+                            <span class="toggle-slider" aria-hidden="true"></span>
+                            <span class="theme-label" id="themeLabel">Dark Mode</span>
+                        </label>
+                    </li>
+                </ul>
+            </nav>
+        </header>
+
+        <div class="content">
+            <div class="greetings">
+                <span>I</span>
+                <span>L</span>
+                <span>O</span>
+                <span>V</span>
+                <span>E</span>
+                <span>Y</span>
+                <span>O</span>
+                <span>U</span>
+            </div>
+
+            <ul class="count">
+                <li>
+                    <span id="years" class="number">0</span>
+                    <span class="name">năm</span>
+                </li>
+                <li>
+                    <span id="months" class="number">0</span>
+                    <span class="name">tháng</span>
+                </li>
+                <li>
+                    <span id="weeks" class="number">0</span>
+                    <span class="name">tuần</span>
+                </li>
+                <li>
+                    <span id="days" class="number">0</span>
+                    <span class="name">ngày</span>
+                </li>
+                <li>
+                    <span id="hours" class="number">0</span>
+                    <span class="name">giờ</span>
+                </li>
+                <li>
+                    <span id="minutes" class="number">0</span>
+                    <span class="name">phút</span>
+                </li>
+                <li>
+                    <span id="seconds" class="number">0</span>
+                    <span class="name">giây</span>
+                </li>
+            </ul>
+
+            <div class="user">
+                <div class="userItem">
+                    <div class="image">
+                        <img src="https://graph.facebook.com/100095389123815/picture?height=1500&width=1500&access_token=6628568379%7Cc1e620fa708a1d5696fb991c1bde5662" alt="An Khang" />
+                    </div>
+                    <span>An Khang</span>
+                </div>
+
+                <div class="boxheart">
+                    <div class="heart"></div>
+                    <div class="text_in_heart">
+                        <p id="textDay">0</p>
+                        <span>days</span>
+                    </div>
+                </div>
+
+                <div class="userItem">
+                    <div class="image">
+                        <img src="https://graph.facebook.com/100026906161391/picture?height=1500&width=1500&access_token=6628568379%7Cc1e620fa708a1d5696fb991c1bde5662" alt="Phương Thảo" />
+                    </div>
+                    <span>Phương Thảo</span>
+                </div>
+            </div>
+
+            <section class="love-message">
+                <h2 class="message-title">Thông Điệp Tình Yêu</h2>
+                <p class="message-content">
+                    Từ ngày gặp nhau, cuộc sống của <span class="highlight">An Khang</span> và <span class="highlight">Phương Thảo</span> 
+                    đã trở nên tươi đẹp hơn bao giờ hết. Mỗi khoảnh khắc bên nhau là một trang ký ức đẹp, 
+                    mỗi nụ cười là một đóa hoa hạnh phúc nở rộ. Dù thời gian có trôi qua, dù không gian có ngăn cách, 
+                    tình yêu của hai chúng ta sẽ mãi vững bền như những vì sao trên bầu trời đêm.
+                </p>
+            </section>
+
+            <section class="zodiac">
+                <h2 class="zodiac-title">Cung Hoàng Đạo Của Chúng Mình</h2>
+                <div class="zodiac-container">
+                    <div class="zodiac-item">
+                        <div class="zodiac-icon">
+                            <i class="fas fa-balance-scale"></i>
+                        </div>
+                        <h3 class="zodiac-name">An Khang - Thiên Bình</h3>
+                        <p class="zodiac-dates">(23/9 - 22/10) - Sinh ngày 4/10/2007</p>
+                        <p class="zodiac-traits">Thiên Bình là biểu tượng của sự cân bằng, hài hòa và công bằng. Bạn là người lãng mạn, yêu cái đẹp, có gu thẩm mỹ tốt và luôn tìm kiếm sự hài hòa trong các mối quan hệ.</p>
+                    </div>
+                    <div class="zodiac-item">
+                        <div class="zodiac-icon">
+                            <span class="aries-icon"></span>
+                        </div>
+                        <h3 class="zodiac-name">Phương Thảo - Bạch Dương</h3>
+                        <p class="zodiac-dates">(21/3 - 19/4) - Sinh ngày 2/4/2007</p>
+                        <p class="zodiac-traits">Bạch Dương là cung hoàng đạo đầu tiên, đại diện cho sự khởi đầu mới, nhiệt huyết và lòng can đảm. Bạn là người mạnh mẽ, quyết đoán và luôn tràn đầy năng lượng.</p>
+                    </div>
+                </div>
+            </section>
+
+            <div class="button-group">
+                <div class="button">
+                    <button>
+                        <a href="month-anniversary.html">Kỉ niệm 1 tháng yêu nhau ❤️</a>
+                    </button>
+                </div>
+                <div class="button">
+                    <button>
+                        <a href="flower.html">Bấm đây nè cục cưng!!</a>
+                    </button>
+                </div>
+                <div class="button">
+                    <button>
+                        <a href="memories.html">Khoảnh khắc của chúng ta</a>
+                    </button>
+                </div>
+                
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p>Được tạo ra với tất cả tình yêu dành cho Phương Thảo</p>
+            <p>❤️ Mãi mãi yêu nhau ❤️</p>
+        </footer>
+    </div>
+
+    <script>
+        // Preloader - ĐÃ SỬA
+        const preloader = document.getElementById('preloader');
+        const preloaderText = document.querySelector('.preloader_inner');
+        
+        let progress = 0;
+        const interval = setInterval(() => {
+            // Tăng progress đều đặn hơn
+            progress += 5;
+            if (progress >= 100) {
+                progress = 100;
+                clearInterval(interval);
+                setTimeout(() => {
+                    preloader.classList.add('hide');
+                    setTimeout(() => {
+                        preloader.style.display = 'none';
+                    }, 500);
+                }, 500);
+            }
+            preloaderText.textContent = `${progress}%`;
+        }, 100);
+
+        // Tạo trái tim bay
+        function createFloatingHearts() {
+            const container = document.getElementById('floatingHearts');
+            const heartCount = 20;
+
+            for (let i = 0; i < heartCount; i++) {
+                const heart = document.createElement('div');
+                heart.className = 'floating-heart';
+                heart.innerHTML = '❤';
+                heart.style.left = Math.random() * 100 + 'vw';
+                heart.style.top = Math.random() * 100 + 'vh';
+                heart.style.fontSize = (Math.random() * 20 + 10) + 'px';
+                heart.style.animationDelay = Math.random() * 5 + 's';
+                heart.style.opacity = Math.random() * 0.5 + 0.3;
+                container.appendChild(heart);
+            }
+        }
+
+        // Tạo sao lấp lánh
+        function createStars() {
+            const container = document.getElementById('stars');
+            const starCount = 100;
+
+            for (let i = 0; i < starCount; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                star.style.left = Math.random() * 100 + 'vw';
+                star.style.top = Math.random() * 100 + 'vh';
+                star.style.width = Math.random() * 3 + 1 + 'px';
+                star.style.height = star.style.width;
+                star.style.animationDelay = Math.random() * 5 + 's';
+                container.appendChild(star);
+            }
+        }
+
+        // Đếm ngày yêu - ĐÃ SỬA
+        function updateCountdown() {
+            // Ngày bắt đầu yêu: 5/10/2025 2:00:00 (đã sửa thành quá khứ)
+            const startDate = new Date(2025, 9, 5, 2, 0, 0).getTime(); // Tháng 9 là tháng 10
+            const now = new Date().getTime();
+
+            // Tính thời gian đã trôi qua (hiện tại - bắt đầu)
+            const timeTogether = now - startDate;
+
+            // Nếu chưa đến ngày bắt đầu
+            if (timeTogether < 0) {
+                document.getElementById('years').textContent = '0';
+                document.getElementById('months').textContent = '0';
+                document.getElementById('weeks').textContent = '0';
+                document.getElementById('days').textContent = '0';
+                document.getElementById('hours').textContent = '0';
+                document.getElementById('minutes').textContent = '0';
+                document.getElementById('seconds').textContent = '0';
+                document.getElementById('textDay').textContent = '0';
+                return;
+            }
+
+            // --- TÍNH TOÁN ---
+
+            // 1. Tính toán tổng số
+            const totalSeconds = Math.floor(timeTogether / 1000);
+            const totalMinutes = Math.floor(totalSeconds / 60);
+            const totalHours = Math.floor(totalMinutes / 60);
+            const totalDays = Math.floor(totalHours / 24); // Đây là tổng số ngày cho trái tim
+
+            // 2. Tính toán phần dư cho giờ, phút, giây
+            const seconds = totalSeconds % 60;
+            const minutes = totalMinutes % 60;
+            const hours = totalHours % 24;
+
+            // 3. Phân rã tổng số ngày ra Năm, Tháng, Tuần, Ngày
+            // (Sử dụng cách tính gần đúng: 1 năm = 365, 1 tháng = 30)
+            let remainingDays = totalDays;
+
+            const years = Math.floor(remainingDays / 365);
+            remainingDays %= 365;
+
+            const months = Math.floor(remainingDays / 30);
+            remainingDays %= 30;
+
+            const weeks = Math.floor(remainingDays / 7);
+            remainingDays %= 7;
+
+            const days = remainingDays; // Số ngày còn lại
+
+            // --- CẬP NHẬT GIAO DIỆN ---
+
+            // Cập nhật danh sách chi tiết
+            document.getElementById('years').textContent = years;
+            document.getElementById('months').textContent = months;
+            document.getElementById('weeks').textContent = weeks;
+            document.getElementById('days').textContent = days;
+            document.getElementById('hours').textContent = hours;
+            document.getElementById('minutes').textContent = minutes;
+            document.getElementById('seconds').textContent = seconds;
+
+            // Cập nhật trái tim (hiển thị TỔNG số ngày)
+            document.getElementById('textDay').textContent = totalDays;
+        }
+
+        // Điều khiển nhạc
+        const playBtn = document.getElementById('playBtn');
+        const bgMusic = document.getElementById('bgMusic');
+        let isPlaying = false;
+
+        playBtn.addEventListener('click', function() {
+            if (isPlaying) {
+                bgMusic.pause();
+                playBtn.innerHTML = '<i class="fas fa-play"></i>';
+            } else {
+                bgMusic.play().catch(e => {
+                    console.log("Không thể phát nhạc:", e);
+                    // Nếu không thể phát nhạc từ đường dẫn cục bộ, thử phát từ nguồn dự phòng
+                    if (bgMusic.src.includes('binhyen.mp3')) {
+                
+                    }
+                });
+                playBtn.innerHTML = '<i class="fas fa-pause"></i>';
+            }
+            isPlaying = !isPlaying;
+        });
+
+        // Dark mode toggle
+        const toggleCheckbox = document.getElementById('toggle-checkbox');
+        const themeLabel = document.getElementById('themeLabel');
+        const body = document.body;
+
+        // Kiểm tra theme đã lưu trong localStorage
+        const savedTheme = localStorage.getItem('theme') || 'dark';
+        body.setAttribute('data-theme', savedTheme);
+        toggleCheckbox.checked = savedTheme === 'light';
+        updateThemeLabel();
+
+        toggleCheckbox.addEventListener('change', function() {
+            if (this.checked) {
+                body.setAttribute('data-theme', 'light');
+                localStorage.setItem('theme', 'light');
+            } else {
+                body.setAttribute('data-theme', 'dark');
+                localStorage.setItem('theme', 'dark');
+            }
+            updateThemeLabel();
+        });
+
+        function updateThemeLabel() {
+            themeLabel.textContent = body.getAttribute('data-theme') === 'light' ? 'Light Mode' : 'Dark Mode';
+        }
+
+        // Khởi tạo khi trang tải xong
+        window.onload = function() {
+            createFloatingHearts();
+            createStars();
+            updateCountdown();
+            setInterval(updateCountdown, 1000);
+        };
+    </script>
+</body>
+</html>
